@@ -23,14 +23,16 @@ out vec4 FragColour;
 
 void main() 
 {
+	vec3 PosNorm = normalize(vPosition.xyz);
+	vec3 CamNorm = normalize(cameraPosition);
 	vec3 L = normalize(lightDirection); 
 	vec3 N = normalize(vNormal.xyz);
-	vec3 CamRelative = normalize(cameraPosition - vPosition.xyz);
+	vec3 CamDir = normalize(CamNorm + PosNorm);
 
 	vec3 Ambient = Ka * Ia;
-	vec3 Diffuse = Kd * ((L.x * N.x) + (L.y * N.y) + (L.z * N.z)) * Id;
-	vec3 Reflection = (2 * specularPower * N ) - L;
+	vec3 Diffuse = Kd * dot(L,N) * Id;
+	vec3 Reflection = 2 * Is * N - L;
 	Reflection = normalize(Reflection);
-	vec3 Specular = Ks * pow((Reflection.x * CamRelative.x) + (Reflection.y * CamRelative.y) + (Reflection.z * CamRelative.z), specularPower) * Is;
-	FragColour = vec4(color + Diffuse + Ambient + (Specular / 2), 1);
+	vec3 Specular = Ks * pow(dot(CamDir,Reflection), specularPower) * Is;
+	FragColour = vec4(color  + Ambient + Specular , 1);
 }
