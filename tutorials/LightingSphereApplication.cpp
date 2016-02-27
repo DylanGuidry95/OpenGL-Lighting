@@ -41,17 +41,18 @@ bool LightingSphereApplication::startup() {
 	// set up light (direction updates each frame)
 	m_directionalLight.diffuse = vec3(1);
 	m_directionalLight.specular = vec3(1);
+	m_directionalLight.position = vec3(5, 5, 0);
 	m_ambientLight = vec3(0.25f);
 
 	// set up material
 	m_material.diffuse = vec3(1);
-	m_material.ambient = vec3(1);
+	m_material.ambient = vec3(.5f,.5f,1.f);
 	m_material.specular = vec3(1);
 	m_material.specularPower = 64;
 
 	// generate a sphere with radius 5
 	generateSphere(32, 32, m_vao, m_vbo, m_ibo, m_indexCount);
-	m_modelMatrix = glm::scale(vec3(5));
+	m_modelMatrix = glm::scale(vec3(10));
 		
 	// load a shader
 	m_shader = new Shader();
@@ -97,11 +98,12 @@ bool LightingSphereApplication::update(float deltaTime) {
 
 	// update the camera's movement
 	m_camera->update(deltaTime);
-
+	
 	// rotate light direction
 	float time = (float)glfwGetTime();
 	//m_directionalLight.direction = vec3(sinf(time), 0, cosf(time));
-	m_directionalLight.direction = vec3(1, 0, 1);
+	//m_directionalLight.direction = vec3(1, 0, 1);
+	
 
 	// clear the gizmos and add a transform and grid
 	Gizmos::clear();
@@ -150,8 +152,11 @@ void LightingSphereApplication::draw() {
 	glUniformMatrix4fv(matUniform, 1, GL_TRUE, &normalMatrix[0][0]);
 
 	// bind light data (not using structs or uniform block for now)
-	int lightUniform = m_shader->getUniform("lightDirection");
-	glUniform3fv(lightUniform, 1, &m_directionalLight.direction[0]);
+	//int lightUniform = m_shader->getUniform("lightDirection");
+	//glUniform3fv(lightUniform, 1, &m_directionalLight.direction[0]);
+
+	int lightUniform = m_shader->getUniform("lightPosition");
+	glUniform3fv(lightUniform, 1, &m_directionalLight.position[0]);
 
 	lightUniform = m_shader->getUniform("Id");
 	glUniform3fv(lightUniform, 1, &m_directionalLight.diffuse[0]);

@@ -29,6 +29,7 @@ private:
 		glm::vec3 direction;
 		glm::vec3 diffuse;
 		glm::vec3 specular;
+		glm::vec3 position;
 	} m_directionalLight;
 
 	glm::vec3	m_ambientLight;

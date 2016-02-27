@@ -24,8 +24,8 @@ out vec3 color;
 void main() 
 {
 	vec4 upHeim = vec4(0,1,0,1);
-	vec3 tCol = vec3(1,0,0);
-	vec3 bCol = vec3(0,0,1);
+	vec3 tCol = vec3(0,0,1);
+	vec3 bCol = vec3(0,1,0);
 
 	vPosition = ModelMatrix * Position;
 	vNormal = NormalMatrix * Normal;
