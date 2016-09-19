@@ -143,6 +143,7 @@ void LightingSphereApplication::draw() {
 	int matUniform = m_shader->getUniform("ProjectionViewModel");
 	glUniformMatrix4fv(matUniform, 1, GL_FALSE, &pvm[0][0]);
 
+
 	// draw mesh as a triangle mesh
 	glBindVertexArray(m_vao);
 	glDrawElements(GL_TRIANGLES, m_indexCount, GL_UNSIGNED_INT, 0);
