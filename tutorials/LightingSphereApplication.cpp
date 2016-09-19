@@ -143,48 +143,6 @@ void LightingSphereApplication::draw() {
 	int matUniform = m_shader->getUniform("ProjectionViewModel");
 	glUniformMatrix4fv(matUniform, 1, GL_FALSE, &pvm[0][0]);
 
-	// bind the model matrix
-	matUniform = m_shader->getUniform("ModelMatrix");
-	glUniformMatrix4fv(matUniform, 1, GL_FALSE, &m_modelMatrix[0][0]);
-
-	// bind the normal matrix (make it transposed)
-	matUniform = m_shader->getUniform("NormalMatrix");
-	glUniformMatrix4fv(matUniform, 1, GL_TRUE, &normalMatrix[0][0]);
-
-	// bind light data (not using structs or uniform block for now)
-	//int lightUniform = m_shader->getUniform("lightDirection");
-	//glUniform3fv(lightUniform, 1, &m_directionalLight.direction[0]);
-
-	int lightUniform = m_shader->getUniform("lightPosition");
-	glUniform3fv(lightUniform, 1, &m_directionalLight.position[0]);
-
-	lightUniform = m_shader->getUniform("Id");
-	glUniform3fv(lightUniform, 1, &m_directionalLight.diffuse[0]);
-
-	lightUniform = m_shader->getUniform("Is");
-	glUniform3fv(lightUniform, 1, &m_directionalLight.specular[0]);
-
-	// bind ambient light
-	lightUniform = m_shader->getUniform("Ia");
-	glUniform3fv(lightUniform, 1, &m_ambientLight[0]);
-
-	// bind camera position for specular calculation
-	int cameraUniform = m_shader->getUniform("cameraPosition");
-	glUniform3fv(cameraUniform, 1, &m_camera->getTransform()[3][0]);
-
-	// bind material
-	int materialUniform = m_shader->getUniform("Ka");
-	glUniform3fv(materialUniform, 1, &m_material.ambient[0]);
-
-	materialUniform = m_shader->getUniform("Kd");
-	glUniform3fv(materialUniform, 1, &m_material.diffuse[0]);
-
-	materialUniform = m_shader->getUniform("Ks");
-	glUniform3fv(materialUniform, 1, &m_material.specular[0]);
-
-	materialUniform = m_shader->getUniform("specularPower");
-	glUniform1f(materialUniform, m_material.specularPower);
-
 	// draw mesh as a triangle mesh
 	glBindVertexArray(m_vao);
 	glDrawElements(GL_TRIANGLES, m_indexCount, GL_UNSIGNED_INT, 0);
